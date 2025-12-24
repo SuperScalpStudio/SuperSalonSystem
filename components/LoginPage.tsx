@@ -21,13 +21,13 @@ const PasswordRequirements: React.FC<{ password: string }> = ({ password }) => {
     ];
 
     return (
-        <div className="flex gap-2 mt-2 px-1">
+        <div className="flex gap-2 mt-1 px-1">
             {reqs.map((r, i) => (
                 <div key={i} className={`flex items-center gap-1 transition-all duration-300 ${r.met ? 'opacity-100' : 'opacity-60'}`}>
-                    <div className={`w-3 h-3 rounded-full flex items-center justify-center ${r.met ? 'bg-green-500' : 'bg-gray-400'}`}>
-                        {r.met && <CheckIcon className="w-2 h-2 text-white" />}
+                    <div className={`w-2.5 h-2.5 rounded-full flex items-center justify-center ${r.met ? 'bg-green-500' : 'bg-gray-400'}`}>
+                        {r.met && <CheckIcon className="w-1.5 h-1.5 text-white" />}
                     </div>
-                    <span className={`text-[10px] font-black ${r.met ? 'text-green-600' : 'text-gray-500'}`}>{r.label}</span>
+                    <span className={`text-[9px] font-black ${r.met ? 'text-green-600' : 'text-gray-500'}`}>{r.label}</span>
                 </div>
             ))}
         </div>
@@ -146,12 +146,12 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
   };
 
   const getStatusIcon = () => {
-      if (isCheckingPhone) return <div className="animate-spin h-5 w-5 border-2 border-gray-100 border-t-[#577E89] rounded-full"></div>;
-      if (checkError) return <span className="text-gray-500 text-[10px] font-black italic tracking-wider">連線中...</span>;
+      if (isCheckingPhone) return <div className="animate-spin h-4 w-4 border-2 border-gray-100 border-t-[#577E89] rounded-full"></div>;
+      if (checkError) return <span className="text-gray-500 text-[9px] font-black tracking-wider">連線中</span>;
       if (accountExists === null || phone.length < 10) return null;
       const isSuccess = viewMode === 'login' ? accountExists === true : accountExists === false;
-      return <div className={`transition-all transform ${isSuccess ? 'text-green-500 scale-110' : 'text-red-400'}`}>
-          {isSuccess ? <CheckIcon className="w-5 h-5" /> : <CloseIcon className="w-5 h-5" />}
+      return <div className={`transition-all transform ${isSuccess ? 'text-green-500 scale-100' : 'text-red-400'}`}>
+          {isSuccess ? <CheckIcon className="w-4 h-4" /> : <CloseIcon className="w-4 h-4" />}
       </div>;
   };
 
@@ -161,79 +161,75 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
 
   return (
     <div className="relative h-[100dvh] bg-[#FDFAF5] overflow-hidden flex flex-col font-sans">
-      {/* 背景裝飾 */}
-      <div className="absolute top-[-5%] right-[-5%] w-64 h-64 bg-[#E1A36F]/10 rounded-full blur-3xl"></div>
-      <div className="absolute bottom-[-10%] left-[-10%] w-80 h-80 bg-[#577E89]/5 rounded-full blur-3xl"></div>
-
-      {/* 頂部時間列 - 加深字體色彩 */}
-      <div className="pt-6 px-8 flex justify-between items-start z-30 shrink-0">
-        <div className="bg-[#FDFAF5]/40 backdrop-blur-sm rounded-lg p-1 -m-1">
-          <div className="text-[10px] font-mono font-black text-gray-500 tracking-widest leading-none mb-1">{formattedDate}</div>
-          <div className="text-xl font-mono font-black text-[#577E89] tracking-tighter leading-none">{formattedTime}</div>
+      {/* 頂部時間列 - 減少高度 */}
+      <div className="pt-4 px-8 flex justify-between items-start z-30 shrink-0">
+        <div className="bg-[#FDFAF5]/40 backdrop-blur-sm rounded-lg p-1">
+          <div className="text-[8px] font-mono font-black text-gray-500 tracking-widest leading-none mb-0.5">{formattedDate}</div>
+          <div className="text-lg font-mono font-black text-[#577E89] tracking-tighter leading-none">{formattedTime}</div>
         </div>
       </div>
 
-      {/* Logo 區域：加深標語文字色彩 */}
-      <div className="flex-1 flex flex-col items-center justify-center relative z-10 min-h-0 pt-4">
+      {/* Logo 區域：調整位移幅度，避免註冊模式時觸頂 */}
+      <div className="flex-1 flex flex-col items-center justify-center relative z-10 min-h-0 py-2">
           <div className={`flex flex-col items-center transition-all duration-500 ease-in-out transform origin-center 
-            ${isRegister ? 'scale-75 -translate-y-8' : 'scale-100 translate-y-0'} 
+            ${isRegister ? 'scale-[0.65] -translate-y-4' : 'scale-100 translate-y-0'} 
             ${isTransitioning ? 'opacity-0 blur-md' : 'opacity-100'}`}
           >
-            <div className="w-20 h-20 mb-4 drop-shadow-sm">
-                 <LogoIcon className="w-full h-full animate-breathe-glow" />
+            <div className="w-16 h-16 mb-2 drop-shadow-sm">
+                 <LogoIcon className="w-full h-full" />
             </div>
-            <h1 className="font-serif font-black text-[#577E89] text-4xl tracking-[0.4em] ml-4">營運寶</h1>
-            <p className="text-gray-500 font-black tracking-[0.3em] text-[10px] uppercase mt-2">專注美業・經營有道</p>
+            <h1 className="font-serif font-black text-[#577E89] text-3xl tracking-[0.4em] ml-3">營運寶</h1>
+            <p className="text-gray-500 font-black tracking-[0.3em] text-[9px] uppercase mt-1">專注美業・經營有道</p>
           </div>
       </div>
 
-      {/* 底部功能卡片 */}
+      {/* 底部功能卡片 - 縮減內邊距與間距 */}
       <div 
-        className={`w-full max-w-lg mx-auto bg-white shadow-[0_-20px_50px_rgba(0,0,0,0.08)] rounded-t-[3.5rem] border-t border-white/50 px-8 pt-10 pb-12 transition-all duration-500 cubic-bezier(0.4, 0, 0.2, 1) z-20 shrink-0
+        className={`w-full max-w-lg mx-auto bg-white shadow-[0_-15px_40px_rgba(0,0,0,0.06)] rounded-t-[2.5rem] border-t border-white/50 px-8 pt-6 pb-8 transition-all duration-500 z-20 shrink-0
           ${isTransitioning ? 'translate-y-full opacity-0' : 'translate-y-0 opacity-100'}`}
       >
-        <form className="flex flex-col space-y-6" onSubmit={handleSubmit}>
-          <div className="space-y-5">
+        <form className="flex flex-col space-y-4" onSubmit={handleSubmit}>
+          <div className="space-y-3">
             {isRegister && (
-              <div className="space-y-1">
-                <label className="text-[10px] font-black text-[#577E89] ml-1 uppercase tracking-wider">設計師名稱</label>
+              <div className="space-y-0.5">
+                <label className="text-[9px] font-black text-[#577E89] ml-1 uppercase tracking-wider">設計師名稱</label>
                 <input type="text" value={name} onChange={(e) => setName(e.target.value)}
-                  className="w-full px-1 py-1 bg-transparent border-b border-gray-100 focus:border-[#E1A36F] outline-none transition-all text-2xl font-black text-[#577E89]" required />
+                  className="w-full px-1 py-1 bg-transparent border-b border-gray-100 focus:border-[#E1A36F] outline-none transition-all text-xl font-black text-[#577E89]" required />
               </div>
             )}
-            <div className="space-y-1">
-              <label className="text-[10px] font-black text-[#577E89] ml-1 uppercase tracking-wider">手機號碼</label>
+            <div className="space-y-0.5">
+              <label className="text-[9px] font-black text-[#577E89] ml-1 uppercase tracking-wider">手機號碼</label>
               <div className="relative">
                 <input type="tel" inputMode="numeric" value={phone} onChange={handlePhoneChange} onBlur={handlePhoneBlur}
-                  className="w-full pl-1 pr-14 py-1 bg-transparent border-b border-gray-100 focus:border-[#E1A36F] outline-none transition-all font-mono text-2xl font-black text-[#577E89] tracking-widest"
+                  className="w-full pl-1 pr-14 py-1 bg-transparent border-b border-gray-100 focus:border-[#E1A36F] outline-none transition-all font-mono text-xl font-black text-[#577E89] tracking-widest"
                   maxLength={10} required />
                 <div className="absolute right-0 top-1/2 transform -translate-y-1/2">{getStatusIcon()}</div>
               </div>
             </div>
-            <div className="space-y-1">
+            <div className="space-y-0.5">
               <div className="flex justify-between items-end px-1">
-                <label className="text-[10px] font-black text-[#577E89] uppercase tracking-wider">密碼</label>
-                {!isRegister && <button type="button" onClick={() => setShowContactAdmin(true)} className="text-[10px] font-black text-[#E1A36F] mb-0.5">忘記密碼？</button>}
+                <label className="text-[9px] font-black text-[#577E89] uppercase tracking-wider">密碼</label>
+                {!isRegister && <button type="button" onClick={() => setShowContactAdmin(true)} className="text-[9px] font-black text-[#E1A36F] mb-0.5">忘記密碼？</button>}
               </div>
               <input type="password" value={password} onChange={(e) => setPassword(e.target.value)}
-                className="w-full pl-1 py-1 bg-transparent border-b border-gray-100 focus:border-[#E1A36F] outline-none transition-all tracking-[0.3em] text-2xl font-black text-[#577E89]" required />
+                className="w-full pl-1 py-1 bg-transparent border-b border-gray-100 focus:border-[#E1A36F] outline-none transition-all tracking-[0.2em] text-xl font-black text-[#577E89]" required />
               {isRegister && <PasswordRequirements password={password} />}
             </div>
             {isRegister && (
-              <div className="space-y-1">
-                <label className="text-[10px] font-black text-[#577E89] ml-1 uppercase tracking-wider">確認密碼</label>
+              <div className="space-y-0.5">
+                <label className="text-[9px] font-black text-[#577E89] ml-1 uppercase tracking-wider">確認密碼</label>
                 <input type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)}
-                  className="w-full pl-1 py-1 bg-transparent border-b border-gray-100 focus:border-[#E1A36F] outline-none transition-all tracking-[0.3em] text-2xl font-black text-[#577E89]" required />
+                  className="w-full pl-1 py-1 bg-transparent border-b border-gray-100 focus:border-[#E1A36F] outline-none transition-all tracking-[0.2em] text-xl font-black text-[#577E89]" required />
               </div>
             )}
           </div>
           
-          <div className="pt-4">
+          <div className="pt-2">
             <button type="submit" disabled={isLoading || isCheckingPhone}
-              className="w-full py-4 bg-[#577E89] text-lg font-black text-white rounded-2xl shadow-lg transition-all active:scale-[0.98] disabled:opacity-50 flex items-center justify-center gap-3">
-              {isLoading ? <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div> : <span>{isRegister ? '建立帳號' : '登入系統'}</span>}
+              className="w-full py-3 bg-[#577E89] text-base font-black text-white rounded-xl shadow-md transition-all active:scale-[0.98] disabled:opacity-50 flex items-center justify-center gap-2">
+              {isLoading ? <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div> : <span>{isRegister ? '建立帳號' : '登入系統'}</span>}
             </button>
-            <button type="button" onClick={toggleViewMode} className="w-full py-4 mt-2 text-[#E1A36F] text-sm font-black tracking-widest transition-opacity active:opacity-60">
+            <button type="button" onClick={toggleViewMode} className="w-full py-3 mt-1 text-[#E1A36F] text-[13px] font-black tracking-widest transition-opacity active:opacity-60">
               {isRegister ? '已有帳號？點此登入' : '第一次使用？點此註冊'}
             </button>
           </div>

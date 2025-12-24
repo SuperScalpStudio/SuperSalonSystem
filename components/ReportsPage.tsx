@@ -15,10 +15,10 @@ const SERVICE_COLOR_MAP: Record<string, string> = {
 const DEFAULT_COLOR = '#CBD5E0';
 
 const StatCard: React.FC<{title: string, amount: string, subtitle?: string}> = ({title, amount, subtitle}) => (
-    <div className="p-5 bg-white rounded-2xl shadow-sm border border-gray-100 flex flex-col items-center justify-center h-32 transition-transform hover:scale-[1.02]">
-        <p className="text-sm font-black text-gray-600 mb-0">{title}</p>
-        {subtitle && <p className="text-xs text-gray-500 mb-1 font-mono font-bold tracking-tight">{subtitle}</p>}
-        <p className="text-3xl font-black text-[#577E89] tracking-tight">{amount}</p>
+    <div className="p-5 bg-white rounded-2xl shadow-sm border border-gray-100 flex flex-col items-center justify-center h-28 transition-transform hover:scale-[1.02]">
+        <p className="text-xs font-black text-gray-600 mb-0">{title}</p>
+        {subtitle && <p className="text-[10px] text-gray-500 mb-0.5 font-mono font-bold tracking-tight">{subtitle}</p>}
+        <p className="text-2xl font-black text-[#577E89] tracking-tight">{amount}</p>
     </div>
 );
 
@@ -35,21 +35,21 @@ const PieChart: React.FC<{ data: { name: string, value: number, percent: number,
     }
     const allServices = Object.keys(SERVICE_COLOR_MAP);
     return (
-        <div className="flex flex-col items-center justify-center gap-6 py-4">
-            <div className="w-40 h-40 rounded-full shadow-inner relative" style={{ background: data.length > 0 ? `conic-gradient(${gradientString})` : gradientString }}>
-                <div className="absolute inset-0 m-auto w-24 h-24 bg-white rounded-full flex items-center justify-center shadow-sm">
-                    <span className="text-xs text-gray-500 font-black">營收占比</span>
+        <div className="flex flex-col items-center justify-center gap-4 py-2">
+            <div className="w-32 h-32 rounded-full shadow-inner relative" style={{ background: data.length > 0 ? `conic-gradient(${gradientString})` : gradientString }}>
+                <div className="absolute inset-0 m-auto w-20 h-20 bg-white rounded-full flex items-center justify-center shadow-sm">
+                    <span className="text-[10px] text-gray-500 font-black">營收占比</span>
                 </div>
             </div>
-            <div className="grid grid-cols-2 gap-x-6 gap-y-2 w-full px-4">
+            <div className="grid grid-cols-2 gap-x-4 gap-y-1.5 w-full px-2">
                 {allServices.map((serviceName) => {
                     const dataItem = data.find(d => d.name === serviceName);
                     const percent = dataItem ? dataItem.percent : 0;
                     return (
-                        <div key={serviceName} className="flex items-center gap-2 text-sm">
-                            <div className="w-3 h-3 rounded-full shadow-sm flex-shrink-0" style={{ backgroundColor: SERVICE_COLOR_MAP[serviceName] }}></div>
+                        <div key={serviceName} className="flex items-center gap-1.5 text-xs">
+                            <div className="w-2.5 h-2.5 rounded-full shadow-sm flex-shrink-0" style={{ backgroundColor: SERVICE_COLOR_MAP[serviceName] }}></div>
                             <span className="font-bold text-gray-700 truncate flex-1">{serviceName}</span>
-                            <span className={`text-xs font-mono font-black ${percent > 0 ? 'text-[#577E89]' : 'text-gray-300'}`}>{percent}%</span>
+                            <span className={`text-[10px] font-mono font-black ${percent > 0 ? 'text-[#577E89]' : 'text-gray-300'}`}>{percent}%</span>
                         </div>
                     );
                 })}
@@ -83,8 +83,8 @@ const ServiceRevenueAnalysis: React.FC<{ bookings: Booking[] }> = ({ bookings })
         })).filter(item => item.percent > 0);
     }, [bookings]);
     return (
-        <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-            <h3 className="font-black text-lg mb-4 text-[#577E89] border-l-4 border-[#E1A36F] pl-3">服務項目業績占比</h3>
+        <div className="bg-white p-5 rounded-2xl shadow-sm border border-gray-100">
+            <h3 className="font-black text-base mb-3 text-[#577E89] border-l-4 border-[#E1A36F] pl-2">服務項目業績占比</h3>
             <PieChart data={stats} />
         </div>
     );
@@ -228,19 +228,19 @@ export const ReportsPage: React.FC<ReportsPageProps> = ({ bookings, onUpdateBook
 
     return (
         <div className="relative h-full flex flex-col">
-            {/* 頂部 Tab 容器 */}
-            <div className="p-3 bg-[rgb(var(--color-bg))] sticky top-0 z-10 flex justify-center">
-                <div className="inline-flex rounded-full bg-gray-100 p-1 w-full max-w-xs shadow-inner">
-                    <button onClick={() => setActiveTab('today')} className={`flex-1 py-1.5 text-xs font-black rounded-full transition-all ${activeTab === 'today' ? 'bg-white text-[#577E89] shadow-sm' : 'text-gray-500 hover:text-gray-700'}`}>今日預約</button>
-                    <button onClick={() => setActiveTab('revenue')} className={`flex-1 py-1.5 text-xs font-black rounded-full transition-all ${activeTab === 'revenue' ? 'bg-white text-[#577E89] shadow-sm' : 'text-gray-500 hover:text-gray-700'}`}>營收統計</button>
+            {/* 頂部 Tab 容器 - 縮減內邊距 */}
+            <div className="p-2 bg-[rgb(var(--color-bg))] sticky top-0 z-10 flex justify-center">
+                <div className="inline-flex rounded-full bg-gray-100 p-0.5 w-full max-w-xs shadow-inner">
+                    <button onClick={() => setActiveTab('today')} className={`flex-1 py-1 text-[10px] font-black rounded-full transition-all ${activeTab === 'today' ? 'bg-white text-[#577E89] shadow-sm' : 'text-gray-500 hover:text-gray-700'}`}>今日預約</button>
+                    <button onClick={() => setActiveTab('revenue')} className={`flex-1 py-1 text-[10px] font-black rounded-full transition-all ${activeTab === 'revenue' ? 'bg-white text-[#577E89] shadow-sm' : 'text-gray-500 hover:text-gray-700'}`}>營收統計</button>
                 </div>
             </div>
 
-            <main className="flex-1 overflow-y-auto px-4 pb-32">
+            <main className="flex-1 overflow-y-auto px-4 pb-24">
                 {activeTab === 'today' ? (
-                    <div className="space-y-4 pt-4">
+                    <div className="space-y-4 pt-2">
                         {todayBookings.length > 0 ? (
-                            <ul className="space-y-4">
+                            <ul className="space-y-3">
                                 {todayBookings.map(booking => (
                                     <BookingListItem
                                         key={booking.id}
@@ -256,29 +256,29 @@ export const ReportsPage: React.FC<ReportsPageProps> = ({ bookings, onUpdateBook
                                 ))}
                             </ul>
                         ) : (
-                            <div className="text-center py-16 bg-white rounded-2xl border border-dashed border-gray-300">
-                                <p className="text-gray-500 font-bold">今日尚無預約</p>
+                            <div className="text-center py-12 bg-white rounded-2xl border border-dashed border-gray-300">
+                                <p className="text-gray-500 font-bold text-sm">今日尚無預約</p>
                             </div>
                         )}
                     </div>
                 ) : (
-                    <div className="space-y-5 pt-4">
+                    <div className="space-y-4 pt-2">
                         <div className="grid grid-cols-1 gap-3">
                             <StatCard title="本日營收" subtitle={formatDate(todayDateObj)} amount={`$${revenueStats.todayRevenue.toLocaleString()}`} />
                             <StatCard title="本週營收" subtitle={getWeekRange(todayDateObj)} amount={`$${revenueStats.weekRevenue.toLocaleString()}`} />
                             <StatCard title="本月營收" subtitle={`${todayDateObj.getMonth() + 1}月`} amount={`$${revenueStats.monthRevenue.toLocaleString()}`} />
                         </div>
                         <ServiceRevenueAnalysis bookings={bookings} />
-                        <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-                            <h3 className="font-black text-lg mb-4 text-[#577E89] border-l-4 border-[#6F9F9C] pl-3">自訂範圍查詢</h3>
-                            <div className="flex items-center space-x-2 mb-4">
-                                <input type="date" value={startDate} onChange={(e) => { setStartDate(e.target.value); if(e.target.value > endDate) setEndDate(e.target.value); }} className="flex-1 p-3 bg-white border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#577E89] font-bold text-gray-700" />
+                        <div className="bg-white p-5 rounded-2xl shadow-sm border border-gray-100">
+                            <h3 className="font-black text-base mb-3 text-[#577E89] border-l-4 border-[#6F9F9C] pl-2">自訂範圍查詢</h3>
+                            <div className="flex items-center space-x-2 mb-3">
+                                <input type="date" value={startDate} onChange={(e) => { setStartDate(e.target.value); if(e.target.value > endDate) setEndDate(e.target.value); }} className="flex-1 p-2 bg-white border border-gray-200 rounded-xl focus:outline-none focus:ring-1 focus:ring-[#577E89] font-bold text-gray-700 text-sm" />
                                 <span className="text-gray-400 font-black">-</span>
-                                <input type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)} min={startDate} className="flex-1 p-3 bg-white border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#577E89] font-bold text-gray-700" />
+                                <input type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)} min={startDate} className="flex-1 p-2 bg-white border border-gray-200 rounded-xl focus:outline-none focus:ring-1 focus:ring-[#577E89] font-bold text-gray-700 text-sm" />
                             </div>
-                            <div className="mt-4 p-4 bg-[#FDFAF5] rounded-xl border border-[#E2D8A5]">
-                                <p className="text-sm text-gray-600 mb-1 text-center font-black">範圍總營業額</p>
-                                <p className="text-3xl font-black text-[#E1A36F] text-center">${customRangeRevenue.toLocaleString()}</p>
+                            <div className="mt-3 p-3 bg-[#FDFAF5] rounded-xl border border-[#E2D8A5]">
+                                <p className="text-[10px] text-gray-600 mb-0.5 text-center font-black">範圍總營業額</p>
+                                <p className="text-2xl font-black text-[#E1A36F] text-center">${customRangeRevenue.toLocaleString()}</p>
                             </div>
                         </div>
                     </div>

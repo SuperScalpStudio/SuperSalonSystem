@@ -121,18 +121,18 @@ export const SettingsPage: React.FC<SettingsPageProps> = ({ user, settings, onLo
 
   return createPortal(
     <div className="fixed inset-0 z-50 flex flex-col bg-[#FDFAF5] animate-fade-in-up max-w-lg mx-auto shadow-2xl overflow-hidden">
-      <header className="bg-white border-b border-gray-100 p-4 pt-6 pb-3 shadow-sm sticky top-0 z-20">
-          <div className="px-2 flex justify-between items-center relative h-10">
+      <header className="bg-white border-b border-gray-100 px-4 pt-3 pb-2 shadow-sm sticky top-0 z-20">
+          <div className="px-2 flex justify-between items-center relative h-8">
                 <div className="absolute left-1/2 -translate-x-1/2 text-center pointer-events-none">
-                    <h1 className="text-base font-black text-[#577E89] tracking-[0.3em] ml-1">系統設定</h1>
+                    <h1 className="text-sm font-black text-[#577E89] tracking-[0.3em] ml-1">系統設定</h1>
                 </div>
 
                 <div className="ml-auto flex items-center gap-1">
-                    <button onClick={() => setConfirmState('save')} className="p-2 rounded-full text-[#577E89] hover:bg-[#577E89]/5 transition-colors" title="儲存設定">
-                        <CheckIcon className="w-6 h-6" />
+                    <button onClick={() => setConfirmState('save')} className="p-1.5 rounded-full text-[#577E89] hover:bg-[#577E89]/5 transition-colors" title="儲存設定">
+                        <CheckIcon className="w-5 h-5" />
                     </button>
-                    <button onClick={() => setConfirmState('close')} className="p-2 rounded-full text-gray-300 hover:bg-gray-100 transition-colors" title="關閉">
-                        <CloseIcon className="w-6 h-6" />
+                    <button onClick={() => setConfirmState('close')} className="p-1.5 rounded-full text-gray-300 hover:bg-gray-100 transition-colors" title="關閉">
+                        <CloseIcon className="w-5 h-5" />
                     </button>
                 </div>
           </div>
