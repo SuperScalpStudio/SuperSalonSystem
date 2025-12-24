@@ -9,6 +9,7 @@ import { BookingPage } from './components/BookingPage';
 import { CustomersPage } from './components/CustomersPage';
 import { ReportsPage } from './components/ReportsPage';
 import { SettingsPage } from './components/SettingsPage';
+import { AIAssistantPage } from './components/AIAssistantPage';
 import { api } from './utils/googleSheetSync';
 import { SERVICES } from './constants';
 
@@ -140,7 +141,7 @@ const App: React.FC = () => {
 
   if (isLoading) {
     return (
-      <div className="h-screen flex items-center justify-center bg-[#FDFAF5]">
+      <div className="h-[100dvh] flex items-center justify-center bg-[#FDFAF5]">
         <div className="flex flex-col items-center gap-4">
           <div className="w-12 h-12 border-4 border-[#577E89]/20 border-t-[#577E89] rounded-full animate-spin"></div>
           <p className="text-[#577E89] font-black tracking-widest animate-pulse">載入系統中...</p>
@@ -150,10 +151,11 @@ const App: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-[rgb(var(--color-bg))] flex flex-col max-w-lg mx-auto shadow-2xl relative">
+    <div className="h-[100dvh] bg-[rgb(var(--color-bg))] flex flex-col max-w-lg mx-auto shadow-2xl relative overflow-hidden">
       <Header user={user} onSettingsClick={() => setIsSettingsOpen(true)} />
       
-      <main className="flex-1 overflow-hidden">
+      {/* 修正重點：使用 scrollbar-gutter: stable 徹底消除內容左右跳動 */}
+      <main className="flex-1 overflow-y-auto overflow-x-hidden relative" style={{ scrollbarGutter: 'stable' }}>
         <div className={`h-full animate-page-enter ${activePage === Page.Booking ? 'block' : 'hidden'}`}>
           <BookingPage 
             customers={customers} 

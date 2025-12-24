@@ -178,7 +178,7 @@ export const BookingPage: React.FC<BookingPageProps> = ({
         </div>
         <button
           onClick={handleSearch}
-          className="flex-shrink-0 w-12 h-12 flex items-center justify-center bg-[rgb(var(--color-primary))] text-white rounded-xl shadow-lg hover:opacity-90 transform hover:scale-105 transition-transform self-start"
+          className="flex-shrink-0 w-12 h-12 flex items-center justify-center bg-[rgb(var(--color-primary))] text-white rounded-xl shadow-lg hover:opacity-90 transform active:scale-95 transition-all self-start"
         >
           <SearchIcon className="w-6 h-6" />
         </button>
@@ -202,10 +202,10 @@ export const BookingPage: React.FC<BookingPageProps> = ({
 
       {customerNotFound && !showNewCustomerForm && (
         <div className="p-5 text-center bg-amber-50 border-l-4 border-amber-400 text-amber-800 rounded-lg shadow-md transition-all duration-300">
-          <p className="font-bold">查無此電話：{searchedPhone}</p>
-          <div className="mt-4 space-x-2">
-            <button onClick={() => { setPhone(''); setCustomerNotFound(false); setSearchedPhone(null); }} className="px-4 py-2 text-sm font-medium text-[rgb(var(--color-text))] bg-white border border-[rgb(var(--color-border))] rounded-lg hover:bg-gray-100 transition-colors">重新輸入</button>
-            <button onClick={() => setShowNewCustomerForm(true)} className="px-4 py-2 text-sm font-medium text-white bg-[rgb(var(--color-primary))] border border-transparent rounded-lg hover:opacity-90 transition-colors">以此電話建立新顧客</button>
+          <p className="font-bold text-sm">查無此電話：{searchedPhone}</p>
+          <div className="mt-4 flex flex-col gap-2">
+            <button onClick={() => { setPhone(''); setCustomerNotFound(false); setSearchedPhone(null); }} className="w-full py-2 text-sm font-medium text-[rgb(var(--color-text))] bg-white border border-[rgb(var(--color-border))] rounded-lg hover:bg-gray-100 transition-colors">重新輸入</button>
+            <button onClick={() => setShowNewCustomerForm(true)} className="w-full py-2 text-sm font-medium text-white bg-[rgb(var(--color-primary))] border border-transparent rounded-lg hover:opacity-90 transition-colors">以此電話建立新顧客</button>
           </div>
         </div>
       )}
@@ -218,10 +218,10 @@ export const BookingPage: React.FC<BookingPageProps> = ({
 
   return (
     <div className="relative h-full flex flex-col">
-      <div className="p-4 bg-[rgb(var(--color-bg))] sticky top-0 z-10 flex justify-center">
-        <div className="inline-flex rounded-full bg-gray-100 p-1 w-full max-w-xs">
-            <button onClick={() => setViewMode(ViewMode.List)} className={`flex-1 py-2 text-sm font-semibold rounded-full transition-all ${viewMode === ViewMode.List ? 'bg-white text-[#577E89] shadow-sm' : 'text-gray-500 hover:text-gray-700'}`}>電話查詢</button>
-            <button onClick={() => setViewMode(ViewMode.Calendar)} className={`flex-1 py-2 text-sm font-semibold rounded-full transition-all ${viewMode === ViewMode.Calendar ? 'bg-white text-[#577E89] shadow-sm' : 'text-gray-500 hover:text-gray-700'}`}>月曆瀏覽</button>
+      <div className="p-3 bg-[rgb(var(--color-bg))] sticky top-0 z-10 flex justify-center">
+        <div className="inline-flex rounded-full bg-gray-100 p-1 w-full max-w-xs shadow-inner">
+            <button onClick={() => setViewMode(ViewMode.List)} className={`flex-1 py-1.5 text-xs font-semibold rounded-full transition-all ${viewMode === ViewMode.List ? 'bg-white text-[#577E89] shadow-sm' : 'text-gray-500 hover:text-gray-700'}`}>電話查詢</button>
+            <button onClick={() => setViewMode(ViewMode.Calendar)} className={`flex-1 py-1.5 text-xs font-semibold rounded-full transition-all ${viewMode === ViewMode.Calendar ? 'bg-white text-[#577E89] shadow-sm' : 'text-gray-500 hover:text-gray-700'}`}>月曆瀏覽</button>
         </div>
       </div>
       
@@ -239,14 +239,13 @@ export const BookingPage: React.FC<BookingPageProps> = ({
             onClose={() => setViewingBookingsFor(null)} 
             onModify={setModifyingBooking} 
             onCancel={(id) => setConfirmAction({ type: 'cancel', bookingId: id })} 
-            /* 修正：移除非今日預約視圖中的未到按鈕 */
         />
       )}
       {editingCustomer && <CustomerEditModal customer={editingCustomer} onSave={(updated) => { onUpdateCustomer(updated); setEditingCustomer(null); }} onClose={() => setEditingCustomer(null)} />}
       
       {confirmAction && (
           <ActionConfirmationModal 
-            title={confirmAction.type === 'cancel' ? '取消預約' : confirmAction.type === 'noshow' ? '標示未到' : (confirmAction.type === 'checkout' ? '確認結帳' : (confirmAction.type === 'save_new' ? '建立預約' : '儲存修改'))}
+            title={confirmAction.type === 'cancel' ? '取消預約' : confirmAction.type === 'noshow' ? '標示未到' : (confirmAction.type === 'checkout' ? '確認結帳' : (confirmAction.type === 'save_new' ? '建立預約' : '儲4儲修改'))}
             message={getConfirmationMessage()}
             confirmText={(confirmAction.type === 'cancel' || confirmAction.type === 'noshow') ? '確定' : '確認儲存'}
             variant={confirmAction.type === 'cancel' ? 'danger' : confirmAction.type === 'noshow' ? 'warning' : 'info'}

@@ -139,90 +139,62 @@ export const SettingsPage: React.FC<SettingsPageProps> = ({ user, settings, onLo
       </header>
 
       <main className="flex-1 overflow-y-auto px-4 py-4 space-y-4">
-        {/* 卡片：服務與功能偏好 */}
-        <div className="bg-white p-4 rounded-2xl shadow-sm border border-gray-100">
-            <h2 className="text-[10px] font-black mb-4 text-gray-500 uppercase tracking-widest border-b border-gray-50 pb-2 text-center">服務與功能偏好</h2>
+        <div className="bg-white p-6 rounded-3xl shadow-sm border border-gray-100">
+            <h2 className="text-[10px] font-black mb-6 text-gray-500 uppercase tracking-widest border-b border-gray-50 pb-3 text-center">服務與功能偏好</h2>
             
-            <div className="grid grid-cols-2 gap-x-2 gap-y-2">
+            <div className="grid grid-cols-2 gap-3">
                 {SERVICES.map(service => (
-                    <div key={service.name} className="flex flex-col gap-1 p-2 bg-gray-50/50 rounded-xl border border-gray-100/50">
-                        <span className="font-bold text-gray-600 text-sm">{service.name}</span>
-                        <div className="flex items-center gap-1.5">
+                    <div key={service.name} className="flex flex-col gap-2 p-3 bg-gray-50/50 rounded-2xl border border-gray-100/50">
+                        <span className="font-bold text-gray-600 text-xs">{service.name}</span>
+                        <div className="flex items-center gap-2">
                             <input type="number" inputMode="numeric"
                                 value={localSettings.serviceDurations[service.name] || service.durationMinutes} 
                                 onChange={(e) => handleDurationChange(service.name, e.target.value)}
-                                className="w-full p-1 text-center text-base font-mono font-black border border-gray-200 rounded-lg bg-white focus:ring-1 focus:ring-[#577E89] outline-none"
+                                className="w-full p-1.5 text-center text-base font-mono font-black border border-gray-200 rounded-xl bg-white focus:ring-1 focus:ring-[#577E89] outline-none"
                             />
-                            <span className="text-[9px] font-black text-gray-500 shrink-0">分鐘</span>
+                            <span className="text-[9px] font-black text-gray-400 shrink-0">分鐘</span>
                         </div>
                     </div>
                 ))}
 
-                <div className="flex flex-col gap-1 p-2 bg-gray-50/50 rounded-xl border border-gray-100/50">
-                    <span className="font-bold text-gray-700 text-sm">商品銷售</span>
-                    <div className="h-full flex items-center justify-center">
-                        <label className="custom-switch scale-75">
+                {/* 商品銷售開關：格式與服務項目完全相同，位於「其他」右側 */}
+                <div className="flex flex-col gap-2 p-3 bg-gray-50/50 rounded-2xl border border-gray-100/50">
+                    <span className="font-bold text-gray-600 text-xs">商品銷售</span>
+                    <div className="flex items-center justify-center h-[42px]"> {/* 高度與輸入框對齊 */}
+                        <label className="ios-switch shrink-0 scale-90">
                             <input type="checkbox" checked={localSettings.productSalesEnabled} onChange={handleToggleChange} />
-                            <span className="slider"></span>
+                            <span className="ios-slider"></span>
                         </label>
                     </div>
                 </div>
             </div>
         </div>
 
-        {/* 卡片：安全性與操作 (獨立按鈕) */}
         <div className="space-y-3">
             <button 
                 onClick={() => setShowPasswordModal(true)}
                 className="w-full flex items-center justify-center p-4 bg-white rounded-2xl border border-gray-100 shadow-sm text-[#E1A36F] hover:bg-orange-50/30 transition-all active:scale-[0.98]"
             >
-                <span className="font-black text-sm tracking-[0.2em]">修改密碼</span>
+                <span className="font-black text-sm tracking-[0.2em]">修改登入密碼</span>
             </button>
 
             <button 
                 onClick={() => setConfirmState('logout')} 
-                className="w-full py-4 bg-red-500 text-white font-black text-sm tracking-[0.2em] rounded-2xl shadow-lg border border-red-500 hover:bg-red-600 active:scale-[0.98] transition-all"
+                className="w-full py-4 bg-red-50 text-red-500 font-black text-sm tracking-[0.2em] rounded-2xl border border-red-100 active:scale-[0.98] transition-all"
             >
                 登出帳號
             </button>
         </div>
       </main>
 
-      {/* 各種確認彈窗 */}
       {confirmState === 'save' && (
-          <ActionConfirmationModal 
-            title="儲存設定" 
-            message="確定要儲存目前的變更嗎？" 
-            confirmText="確定儲存" 
-            cancelText="繼續設定" 
-            variant="info" 
-            onConfirm={handleSaveChanges} 
-            onCancel={() => setConfirmState(null)} 
-          />
+          <ActionConfirmationModal title="儲存設定" message="確定要儲存目前的變更嗎？" confirmText="確定儲存" cancelText="繼續設定" variant="info" onConfirm={handleSaveChanges} onCancel={() => setConfirmState(null)} />
       )}
-
       {confirmState === 'close' && (
-          <ActionConfirmationModal 
-            title="取消變更" 
-            message="有尚未儲存的變更，確定要直接返回嗎？" 
-            confirmText="確定返回" 
-            cancelText="繼續設定" 
-            variant="warning" 
-            onConfirm={onClose} 
-            onCancel={() => setConfirmState(null)} 
-          />
+          <ActionConfirmationModal title="取消變更" message="有尚未儲存的變更，確定要直接返回嗎？" confirmText="確定返回" cancelText="繼續設定" variant="warning" onConfirm={onClose} onCancel={() => setConfirmState(null)} />
       )}
-
       {confirmState === 'logout' && (
-          <ActionConfirmationModal 
-            title="帳號登出" 
-            message="確定要登出系統嗎？" 
-            confirmText="確認登出" 
-            cancelText="返回" 
-            variant="danger" 
-            onConfirm={onLogout} 
-            onCancel={() => setConfirmState(null)} 
-          />
+          <ActionConfirmationModal title="帳號登出" message="確定要登出系統嗎？" confirmText="確認登出" cancelText="返回" variant="danger" onConfirm={onLogout} onCancel={() => setConfirmState(null)} />
       )}
 
       {showPasswordModal && user.googleSheetUrl && (
@@ -235,7 +207,6 @@ export const SettingsPage: React.FC<SettingsPageProps> = ({ user, settings, onLo
             to { opacity: 1; transform: translateY(0); }
         }
         .animate-fade-in-up { animation: fade-in-up 0.3s ease-out; }
-        
         main::-webkit-scrollbar { display: none; }
         main { -ms-overflow-style: none; scrollbar-width: none; }
       `}</style>

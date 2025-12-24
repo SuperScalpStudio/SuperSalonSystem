@@ -23,45 +23,42 @@ export const CustomerInfoCard: React.FC<CustomerInfoCardProps> = ({ customer, on
                 </h3>
                 <button 
                     onClick={onEdit} 
-                    className="text-gray-300 hover:text-[#577E89] transition-colors p-0.5"
+                    className="text-gray-400 hover:text-[#577E89] transition-colors p-0.5"
                     aria-label="編輯"
                 >
                     <PencilIcon className="w-3.5 h-3.5" />
                 </button>
             </div>
 
-            {/* Phone | Birthday */}
-            <div className="text-sm text-gray-400 font-mono tracking-wide flex items-center mb-1.5">
+            {/* Phone | Birthday - 加深文字色彩 */}
+            <div className="text-sm text-gray-600 font-mono font-bold tracking-wide flex items-center mb-1.5">
                 <span>{customer.phone}</span>
-                <span className="mx-2 text-gray-200">｜</span>
+                <span className="mx-2 text-gray-300">｜</span>
                 <span>{customer.birthday || '--/--'}</span>
             </div>
             
-            {/* Stats Badges (Order: Modify -> Cancel -> NoShow to match buttons) */}
+            {/* Stats Badges */}
             <div className="flex flex-wrap gap-1.5 mb-1.5">
-                {/* Modify: Neutral Gray (Matches '修改' button) */}
                 {(customer.statsModify || 0) > 0 && (
-                    <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium bg-gray-100 text-gray-600 border border-gray-200">
+                    <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-black bg-gray-100 text-gray-600 border border-gray-200">
                         修改 {customer.statsModify}
                     </span>
                 )}
-                {/* Cancel: Red Outline (Matches '取消' button) */}
                 {(customer.statsCancel || 0) > 0 && (
-                    <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium bg-white text-red-500 border border-red-200">
+                    <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-black bg-white text-red-500 border border-red-200">
                         取消 {customer.statsCancel}
                     </span>
                 )}
-                {/* No Show: Solid Red (Matches '未到' button) */}
                 {(customer.statsNoShow || 0) > 0 && (
-                    <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium bg-red-500 text-white border border-red-500 shadow-sm">
+                    <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-black bg-red-500 text-white border border-red-500 shadow-sm">
                         未到 {customer.statsNoShow}
                     </span>
                 )}
             </div>
 
-            {/* Notes (Optional) */}
+            {/* Notes - 加深備註字體色彩 */}
             {customer.notes && (
-                <div className="text-xs text-gray-400 truncate w-full">
+                <div className="text-xs text-gray-500 font-medium truncate w-full">
                     {customer.notes}
                 </div>
             )}
@@ -70,12 +67,12 @@ export const CustomerInfoCard: React.FC<CustomerInfoCardProps> = ({ customer, on
         {/* Right Side: Revenue Stats */}
         <div className="text-right flex flex-col justify-start h-full pt-1 shrink-0">
              <div className="mb-0.5">
-                <p className="text-lg font-bold text-[#6F9F9C] leading-none">
+                <p className="text-lg font-black text-[#6F9F9C] leading-none">
                     ${customer.statsAmount.toLocaleString()}
                 </p>
              </div>
              <div>
-                <p className="text-xs text-gray-400 font-medium">
+                <p className="text-xs text-gray-500 font-black tracking-tighter">
                     來店 {customer.statsVisits} 次
                 </p>
              </div>
@@ -86,13 +83,13 @@ export const CustomerInfoCard: React.FC<CustomerInfoCardProps> = ({ customer, on
       <div className="bg-gray-50/30 px-3 py-2 flex gap-2 border-t border-gray-50">
          <button 
             onClick={onAddBooking}
-            className="flex-1 py-2 text-xs font-bold text-white bg-[#577E89] rounded-lg shadow-sm hover:bg-[#4a6b75] transition-colors"
+            className="flex-1 py-2 text-xs font-black text-white bg-[#577E89] rounded-lg shadow-sm hover:bg-[#4a6b75] transition-colors"
          >
             新增預約
          </button>
          <button 
             onClick={onViewBookings}
-            className="flex-1 py-2 text-xs font-bold text-gray-500 bg-white border border-gray-100 rounded-lg hover:border-[#577E89] hover:text-[#577E89] transition-all"
+            className="flex-1 py-2 text-xs font-black text-gray-600 bg-white border border-gray-200 rounded-lg hover:border-[#577E89] hover:text-[#577E89] transition-all"
          >
             全部預約
          </button>
