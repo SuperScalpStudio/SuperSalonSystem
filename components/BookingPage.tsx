@@ -163,7 +163,7 @@ export const BookingPage: React.FC<BookingPageProps> = ({
 
   const renderListView = () => (
     <div className="p-4 space-y-6 relative pb-24">
-      <div className="flex space-x-2">
+      <div className="flex gap-2">
         <div className="flex-grow">
             <input
             type="tel"
@@ -174,7 +174,7 @@ export const BookingPage: React.FC<BookingPageProps> = ({
             maxLength={10}
             className={`w-full px-4 h-11 bg-white border ${error ? 'border-red-500' : 'border-[rgb(var(--color-border))]'} rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-primary))] transition-all duration-200 text-sm`}
             />
-            {error && <p className="text-[10px] text-red-500 mt-1 ml-1">{error}</p>}
+            {error && <p className="text-[10px] text-red-500 mt-1 ml-1 font-black">{error}</p>}
         </div>
         <button
           onClick={handleSearch}
