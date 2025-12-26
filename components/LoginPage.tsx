@@ -150,8 +150,8 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
       if (checkError) return <span className="text-gray-500 text-[9px] font-black tracking-wider">連線中</span>;
       if (accountExists === null || phone.length < 10) return null;
       const isSuccess = viewMode === 'login' ? accountExists === true : accountExists === false;
-      return <div className={`transition-all transform ${isSuccess ? 'text-green-500 scale-100' : 'text-red-400'}`}>
-          {isSuccess ? <CheckIcon className="w-4 h-4" /> : <CloseIcon className="w-4 h-4" />}
+      return <div className={`transition-all transform duration-300 ${isSuccess ? 'text-green-500 scale-125' : 'text-red-400 scale-100'}`}>
+          {isSuccess ? <CheckIcon className="w-5 h-5 drop-shadow-sm" /> : <CloseIcon className="w-4 h-4" />}
       </div>;
   };
 
@@ -161,7 +161,6 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
 
   return (
     <div className="relative h-[100dvh] bg-[#FDFAF5] overflow-hidden flex flex-col font-sans">
-      {/* 頂部時間列 - 減少高度 */}
       <div className="pt-4 px-8 flex justify-between items-start z-30 shrink-0">
         <div className="bg-[#FDFAF5]/40 backdrop-blur-sm rounded-lg p-1">
           <div className="text-[8px] font-mono font-black text-gray-500 tracking-widest leading-none mb-0.5">{formattedDate}</div>
@@ -169,7 +168,6 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
         </div>
       </div>
 
-      {/* Logo 區域：調整位移幅度，避免註冊模式時觸頂 */}
       <div className="flex-1 flex flex-col items-center justify-center relative z-10 min-h-0 py-2">
           <div className={`flex flex-col items-center transition-all duration-500 ease-in-out transform origin-center 
             ${isRegister ? 'scale-[0.65] -translate-y-4' : 'scale-100 translate-y-0'} 
@@ -183,7 +181,6 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
           </div>
       </div>
 
-      {/* 底部功能卡片 - 縮減內邊距與間距 */}
       <div 
         className={`w-full max-w-lg mx-auto bg-white shadow-[0_-15px_40px_rgba(0,0,0,0.06)] rounded-t-[2.5rem] border-t border-white/50 px-8 pt-6 pb-8 transition-all duration-500 z-20 shrink-0
           ${isTransitioning ? 'translate-y-full opacity-0' : 'translate-y-0 opacity-100'}`}
@@ -226,8 +223,17 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
           
           <div className="pt-2">
             <button type="submit" disabled={isLoading || isCheckingPhone}
-              className="w-full py-3 bg-[#577E89] text-base font-black text-white rounded-xl shadow-md transition-all active:scale-[0.98] disabled:opacity-50 flex items-center justify-center gap-2">
-              {isLoading ? <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div> : <span>{isRegister ? '建立帳號' : '登入系統'}</span>}
+              className="w-full py-4 bg-[#577E89] text-base font-black text-white rounded-xl shadow-md transition-all active:scale-[0.98] disabled:opacity-50 flex flex-col items-center justify-center gap-1">
+              {isLoading ? (
+                <>
+                  <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                  <span className="text-[10px] opacity-80 mt-1">
+                    {isRegister ? '正在建立帳號...' : '系統登入中...'}
+                  </span>
+                </>
+              ) : (
+                <span>{isRegister ? '建立帳號' : '登入系統'}</span>
+              )}
             </button>
             <button type="button" onClick={toggleViewMode} className="w-full py-3 mt-1 text-[#E1A36F] text-[13px] font-black tracking-widest transition-opacity active:opacity-60">
               {isRegister ? '已有帳號？點此登入' : '第一次使用？點此註冊'}

@@ -41,11 +41,13 @@ const sendRequest = async (url: string, payload: any): Promise<ApiResponse> => {
   }
 };
 
+/**
+ * 歸一化手機號碼：確保字串形式，不在此處做補0，交由前端輸入限制 (10碼)。
+ * 但在讀取時會確保移除 '。
+ */
 const normalizePhone = (phone: string | number): string => {
     if (!phone) return '';
-    let p = cleanText(phone);
-    if (p.length === 9 && p.startsWith('9')) return '0' + p;
-    return p;
+    return cleanText(phone).trim();
 };
 
 const sanitizeUser = (user?: any): User | undefined => {
@@ -64,7 +66,7 @@ export const api = {
   checkUserAvailability: async (url: string, phone: string): Promise<{ isAvailable: boolean, message: string, error?: boolean }> => {
       const result = await sendRequest(url, {
           action: 'check_user',
-          phone: normalizePhone(phone)
+          phone: forceText(normalizePhone(phone)) // 查詢時也帶 ' 確保匹配
       });
       if (result.success && typeof result.exists === 'boolean') {
           return { isAvailable: !result.exists, message: result.exists ? '帳號已註冊' : '此號碼可註冊' };
@@ -76,10 +78,9 @@ export const api = {
     const res = await sendRequest(url, {
       action: 'register',
       phone: forceText(data.phone),
-      password: forceText(data.password),
+      password: forceText(data.password), // 保持明文
       name: forceText(data.name)
     });
-    // 修復：註冊後立即清洗，防止名稱帶引號
     if (res.success && res.user) res.user = sanitizeUser(res.user);
     return res;
   },
@@ -87,8 +88,8 @@ export const api = {
   login: async (url: string, data: { phone: string, password: string }) => {
     const res = await sendRequest(url, {
       action: 'login',
-      phone: normalizePhone(data.phone),
-      password: data.password 
+      phone: forceText(normalizePhone(data.phone)), // 登入查詢也帶 '
+      password: data.password // 保持明文
     });
     if (res.success && res.user) res.user = sanitizeUser(res.user);
     return res;
@@ -97,7 +98,7 @@ export const api = {
   changePassword: async (url: string, data: { phone: string, oldPassword: string, newPassword: string }) => {
     return sendRequest(url, {
         action: 'change_password',
-        phone: normalizePhone(data.phone),
+        phone: forceText(normalizePhone(data.phone)),
         oldPassword: data.oldPassword,
         newPassword: forceText(data.newPassword)
     });
@@ -108,18 +109,20 @@ export const api = {
     
     const payloadData = data.map((item: any) => {
         const newItem = { ...item };
-        // 文字欄位強制轉換
+        // 文字欄位強制轉換並補上 ' 前綴，防止 Google Sheets 自動轉換型別
         Object.keys(newItem).forEach(key => {
             if (typeof newItem[key] === 'string') {
                 newItem[key] = forceText(newItem[key]);
             }
         });
         
-        // 解決 1899 年與生日 ISO 問題：對日期、時間與生日欄位補上 '
+        // 針對特定欄位再次確保 ' 前綴
         if (newItem.date) newItem.date = forceText(newItem.date);
         if (newItem.startTime) newItem.startTime = forceText(newItem.startTime);
         if (newItem.endTime) newItem.endTime = forceText(newItem.endTime);
         if (newItem.birthday) newItem.birthday = forceText(newItem.birthday);
+        if (newItem.phone) newItem.phone = forceText(newItem.phone);
+        if (newItem.id) newItem.id = forceText(newItem.id);
         
         return newItem;
     });
@@ -145,7 +148,7 @@ export const api = {
         response.data = response.data.map((item: any) => {
             const newItem = { ...item };
             
-            // 關鍵修正：讀取時移除所有欄位的 '，確保 ID 比對 (b.customerId === c.id) 正常運作
+            // 讀取時移除所有欄位的 ' 前綴，還原為原始字串資料
             Object.keys(newItem).forEach(key => {
                 if (typeof newItem[key] === 'string') {
                     newItem[key] = cleanText(newItem[key]);

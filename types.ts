@@ -61,22 +61,3 @@ export interface AppSettings {
   productSalesEnabled: boolean;
   googleSheetUrl?: string;
 }
-
-// Add missing types for AI Assistant
-export enum AppStatus {
-  IDLE = 'idle',
-  EXPANDING = 'expanding',
-  GENERATING_IMAGE = 'generating_image',
-  SUCCESS = 'success',
-  ERROR = 'error'
-}
-
-export interface ExpandedContent {
-  title: string;
-  summary: string;
-  narrative: string;
-  keyInsights: { label: string; value: number }[];
-  nodes: { id: string; group: number }[];
-  links: { source: string; target: string }[];
-  imagePrompt: string;
-}

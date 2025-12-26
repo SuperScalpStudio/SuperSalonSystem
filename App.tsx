@@ -9,7 +9,6 @@ import { BookingPage } from './components/BookingPage';
 import { CustomersPage } from './components/CustomersPage';
 import { ReportsPage } from './components/ReportsPage';
 import { SettingsPage } from './components/SettingsPage';
-import { AIAssistantPage } from './components/AIAssistantPage';
 import { api } from './utils/googleSheetSync';
 import { SERVICES } from './constants';
 
@@ -63,8 +62,8 @@ const App: React.FC = () => {
 
   const handleLogin = (loggedUser: User, masterUrl?: string) => {
     const targetUrl = loggedUser.googleSheetUrl || masterUrl;
-    const cleanName = loggedUser.name.replace(/^'/, '');
-    const userWithUrl = { ...loggedUser, name: cleanName, googleSheetUrl: targetUrl };
+    // 使用歸一化後的 User 資料，確保不帶 ' 符號於前端 UI 顯示
+    const userWithUrl = { ...loggedUser, googleSheetUrl: targetUrl };
     
     setUser(userWithUrl);
     localStorage.setItem('user', JSON.stringify(userWithUrl));
@@ -154,7 +153,6 @@ const App: React.FC = () => {
     <div className="h-[100dvh] bg-[rgb(var(--color-bg))] flex flex-col max-w-lg mx-auto shadow-2xl relative overflow-hidden">
       <Header user={user} onSettingsClick={() => setIsSettingsOpen(true)} />
       
-      {/* 修正重點：使用 scrollbar-gutter: stable 徹底消除內容左右跳動 */}
       <main className="flex-1 overflow-y-auto overflow-x-hidden relative" style={{ scrollbarGutter: 'stable' }}>
         <div className={`h-full animate-page-enter ${activePage === Page.Booking ? 'block' : 'hidden'}`}>
           <BookingPage 
