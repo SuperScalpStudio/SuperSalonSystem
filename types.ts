@@ -1,37 +1,63 @@
 
-export interface Product {
-  barcode: string;
+export enum Page {
+  Booking = 'booking',
+  Customers = 'customers',
+  Reports = 'reports'
+}
+
+export interface User {
+  phone: string;
   name: string;
-  quantity: number;
-  weightedAverageCost: number;
-  lastUpdated: string;
+  googleSheetUrl?: string;
+  sheetId?: string;
 }
 
-export interface TransactionItem {
-  barcode: string;
+export interface Service {
   name: string;
-  quantity: number;
-  price: number; // 進貨: 台幣成本; 銷貨: 售價
-  cost?: number; // 僅銷貨時記錄當時的加權平均成本
-  profit?: number; // 僅銷貨時記錄毛利
+  durationMinutes: number;
 }
 
-export enum TransactionType {
-  PURCHASE = 'PURCHASE',
-  SALE = 'SALE'
+export enum BookingStatus {
+  Booked = 'booked',
+  Paid = 'paid',
+  Canceled = 'canceled',
+  NoShow = 'noshow'
 }
 
-export interface Transaction {
+export interface Booking {
   id: string;
+  customerId: string;
+  customerName: string;
   date: string;
-  type: TransactionType;
-  items: TransactionItem[];
-  totalAmount: number;
-  totalProfit?: number; 
-  remarks?: string;
+  startTime: string;
+  endTime: string;
+  startMs: number;
+  endMs: number;
+  services: string[];
+  notes?: string;
+  status: BookingStatus;
+  createdAtMs: number;
+  amount?: number;
+  productAmount?: number;
+  checkoutNotes?: string;
 }
 
-export interface InventoryState {
-  products: Record<string, Product>;
-  transactions: Transaction[];
+export interface Customer {
+  id: string;
+  phone: string;
+  name: string;
+  birthday?: string;
+  notes?: string;
+  statsVisits: number;
+  statsAmount: number;
+  statsCancel: number;
+  statsNoShow: number;
+  statsModify: number;
+  createdAtMs: number;
+}
+
+export interface AppSettings {
+  serviceDurations: { [key: string]: number };
+  productSalesEnabled: boolean;
+  googleSheetUrl?: string;
 }

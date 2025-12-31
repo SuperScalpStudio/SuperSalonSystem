@@ -1,8 +1,5 @@
-
 {
-  "name": "Smart Stock Pro - Cloud Sync",
-  "description": "Inventory management system with Google Sheets backend integration, weighted cost calculation, and barcode scanning support.",
-  "requestFramePermissions": [
-    "camera"
-  ]
+  "name": "SuperScalpStudio-美業營運系統",
+  "description": "一個為美業設計師打造的個人化營運系統，用於管理顧客、預約、和營收。此應用程式使用手機優先的單頁式介面，並模擬與 Google Sheets 後端的互動。",
+  "requestFramePermissions": []
 }
